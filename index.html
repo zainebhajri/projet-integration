@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlotteApp – Gestion de Flotte & Carburant</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Police Google : Inter (moderne et lisible) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ============================================================
+       PAGE 1 : CONNEXION
+       Affichée au démarrage. Chaque acteur se connecte ici.
+  ============================================================ -->
+  <section id="page-login" class="page active">
+    <div class="login-wrapper">
+
+      <!-- Logo de l'application -->
+      <div class="login-logo">
+        <span class="logo-icon">⛽</span>
+        <h1>FlotteApp</h1>
+        <p>Gestion de Flotte & Carburant</p>
+      </div>
+
+      <!-- Carte de connexion -->
+      <div class="card login-card">
+        <h2>Connexion</h2>
+
+        <!-- Zone d'erreur (cachée par défaut) -->
+        <div id="login-erreur" class="alerte alerte-rouge" style="display:none;"></div>
+
+        <!-- Formulaire de connexion -->
+        <form id="form-login">
+          <div class="champ">
+            <label for="login">Login</label>
+            <input type="text" id="login" placeholder="Votre identifiant" required>
+          </div>
+          <div class="champ">
+            <label for="motdepasse">Mot de passe</label>
+            <input type="password" id="motdepasse" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn btn-primaire btn-plein">🔐 Se connecter</button>
+        </form>
+
+        <!-- Boutons pour tester rapidement chaque rôle -->
+        <div class="demo-comptes">
+          <p>Comptes de démonstration :</p>
+          <div class="demo-btn-groupe">
+            <button class="btn-demo" onclick="remplirLogin('dg','dg123')">👔 DG</button>
+            <button class="btn-demo" onclick="remplirLogin('dr','dr123')">🗺️ DR</button>
+            <button class="btn-demo" onclick="remplirLogin('chauffeur','ch123')">🚗 Chauffeur</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       PAGE 2 : ESPACE DIRECTEUR GÉNÉRAL (DG)
+       Accès total : voit tout, gère les régions et DR
+  ============================================================ -->
+  <section id="page-dg" class="page">
+    <div class="app-layout">
+
+      <!-- Barre latérale de navigation -->
+      <aside class="sidebar">
+        <div class="sidebar-logo">⛽ FlotteApp</div>
+        <nav>
+          <a href="#" class="nav-lien actif">📊 Tableau de bord</a>
+          <a href="#" class="nav-lien">🗺️ Régions</a>
+          <a href="#" class="nav-lien">👥 Chauffeurs</a>
+          <a href="#" class="nav-lien">🚗 Véhicules</a>
+        </nav>
+        <button class="btn-deconnexion" onclick="deconnecter()">🚪 Déconnexion</button>
+      </aside>
+
+      <!-- Contenu principal -->
+      <main class="contenu-principal">
+
+        <!-- En-tête avec nom de l'utilisateur -->
+        <div class="topbar">
+          <h2>Bonjour, <span id="dg-nom"></span> 👋</h2>
+          <span class="badge badge-dg">Directeur Général</span>
+        </div>
+
+        <!-- Statistiques globales -->
+        <div class="grille-stats">
+          <div class="card stat-carte">
+            <div class="stat-icone" style="background:#0D4F6B;">🚗</div>
+            <div>
+              <p class="stat-label">Total Véhicules</p>
+              <p class="stat-valeur">12</p>
+            </div>
+          </div>
+          <div class="card stat-carte">
+            <div class="stat-icone" style="background:#2DCE89;">👨‍✈️</div>
+            <div>
+              <p class="stat-label">Chauffeurs</p>
+              <p class="stat-valeur" id="dg-total-chauffeurs">0</p>
+            </div>
+          </div>
+          <div class="card stat-carte">
+            <div class="stat-icone" style="background:#FB6340;">⛽</div>
+            <div>
+              <p class="stat-label">Bons Carburant</p>
+              <p class="stat-valeur">24</p>
+            </div>
+          </div>
+          <div class="card stat-carte">
+            <div class="stat-icone" style="background:#F5365C;">⚠️</div>
+            <div>
+              <p class="stat-label">Pannes actives</p>
+              <p class="stat-valeur">2</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tableau de tous les chauffeurs (toutes régions) -->
+        <div class="card">
+          <div class="card-entete">
+            <h3>👨‍✈️ Liste de tous les chauffeurs</h3>
+          </div>
+          <table class="tableau">
+            <thead>
+              <tr>
+                <th>Nom complet</th>
+                <th>N° Permis</th>
+                <th>Catégorie</th>
+                <th>Région</th>
+                <th>Statut</th>
+              </tr>
+            </thead>
+            <tbody id="dg-chauffeurs-body">
+              <!-- Rempli automatiquement par app.js -->
+            </tbody>
+          </table>
+        </div>
+
+      </main>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       PAGE 3 : ESPACE DIRECTEUR RÉGIONAL (DR)
+       Gère les chauffeurs, véhicules, bons de carburant de sa région
+  ============================================================ -->
+  <section id="page-dr" class="page">
+    <div class="app-layout">
+
+      <aside class="sidebar">
+        <div class="sidebar-logo">⛽ FlotteApp</div>
+        <nav>
+          <a href="#" class="nav-lien actif">👨‍✈️ Mes Chauffeurs</a>
+          <a href="#" class="nav-lien">🚗 Véhicules</a>
+          <a href="#" class="nav-lien">⛽ Bons Carburant</a>
+        </nav>
+        <button class="btn-deconnexion" onclick="deconnecter()">🚪 Déconnexion</button>
+      </aside>
+
+      <main class="contenu-principal">
+
+        <div class="topbar">
+          <h2>Bonjour, <span id="dr-nom"></span> 👋</h2>
+          <span class="badge badge-dr">Directeur Régional</span>
+        </div>
+
+        <!-- Section gestion des chauffeurs -->
+        <div class="card">
+          <div class="card-entete">
+            <h3>Gestion des Chauffeurs</h3>
+            <!-- Bouton pour ouvrir la modale d'ajout -->
+            <button class="btn btn-primaire" onclick="ouvrirModalAjout()">+ Ajouter un chauffeur</button>
+          </div>
+
+          <!-- Message de succès ou d'erreur après une action -->
+          <div id="dr-message" class="alerte" style="display:none;"></div>
+
+          <!-- Tableau des chauffeurs -->
+          <table class="tableau">
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>N° Permis</th>
+                <th>Catégorie</th>
+                <th>Expiration Permis</th>
+                <th>Disponible</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="dr-chauffeurs-body">
+              <!-- Rempli automatiquement par app.js -->
+            </tbody>
+          </table>
+        </div>
+
+      </main>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       PAGE 4 : ESPACE CHAUFFEUR
+       Voit et modifie son propre profil
+  ============================================================ -->
+  <section id="page-chauffeur" class="page">
+    <div class="app-layout">
+
+      <aside class="sidebar">
+        <div class="sidebar-logo">⛽ FlotteApp</div>
+        <nav>
+          <a href="#" class="nav-lien actif">👤 Mon Profil</a>
+          <a href="#" class="nav-lien">📋 Mes Missions</a>
+        </nav>
+        <button class="btn-deconnexion" onclick="deconnecter()">🚪 Déconnexion</button>
+      </aside>
+
+      <main class="contenu-principal">
+
+        <div class="topbar">
+          <h2>Mon Profil</h2>
+          <span class="badge badge-ch">Chauffeur</span>
+        </div>
+
+        <!-- Profil : carte identité + formulaire de modification -->
+        <div class="profil-layout">
+
+          <!-- Carte identité du chauffeur -->
+          <div class="card profil-carte">
+            <div class="profil-avatar">
+              <span id="ch-initiales">OB</span>
+            </div>
+            <h3 id="ch-nom-complet">—</h3>
+            <span class="badge badge-ch">Chauffeur</span>
+
+            <!-- Infos rapides -->
+            <div class="profil-info">
+              <div class="info-ligne">
+                <span class="info-label">📱 Téléphone</span>
+                <span id="ch-telephone" class="info-valeur">—</span>
+              </div>
+              <div class="info-ligne">
+                <span class="info-label">🗺️ Région</span>
+                <span id="ch-region" class="info-valeur">—</span>
+              </div>
+              <div class="info-ligne">
+                <span class="info-label">📅 Recruté le</span>
+                <span id="ch-recrutement" class="info-valeur">—</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Formulaire de modification du profil -->
+          <div class="card" style="flex:2;">
+            <div class="card-entete">
+              <h3>✏️ Modifier mon profil</h3>
+            </div>
+
+            <!-- Message après sauvegarde -->
+            <div id="ch-message" class="alerte" style="display:none;"></div>
+
+            <form id="form-profil" onsubmit="sauvegarderProfil(event)">
+              <div class="grille-formulaire">
+                <div class="champ">
+                  <label>Nom</label>
+                  <input type="text" id="ch-edit-nom" required>
+                </div>
+                <div class="champ">
+                  <label>Prénom</label>
+                  <input type="text" id="ch-edit-prenom" required>
+                </div>
+                <div class="champ">
+                  <label>Téléphone</label>
+                  <input type="tel" id="ch-edit-telephone" placeholder="06xxxxxxxx">
+                </div>
+                <div class="champ">
+                  <label>N° Permis</label>
+                  <input type="text" id="ch-edit-permis" required>
+                </div>
+                <div class="champ">
+                  <label>Catégorie Permis</label>
+                  <select id="ch-edit-categorie">
+                    <option value="B">B – Voiture légère</option>
+                    <option value="C">C – Poids lourd</option>
+                    <option value="D">D – Transport voyageurs</option>
+                    <option value="BE">BE – Remorque</option>
+                  </select>
+                </div>
+                <div class="champ">
+                  <label>Date Expiration Permis</label>
+                  <input type="date" id="ch-edit-expiration" required>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primaire">💾 Sauvegarder les modifications</button>
+            </form>
+          </div>
+
+        </div>
+
+        <!-- Section informations du permis -->
+        <div class="card" style="margin-top:0;">
+          <div class="card-entete">
+            <h3>🪪 Informations Permis</h3>
+          </div>
+          <div class="grille-stats">
+            <div class="card stat-carte">
+              <div class="stat-icone" style="background:#0D4F6B;">🔢</div>
+              <div>
+                <p class="stat-label">N° Permis</p>
+                <p class="stat-valeur" id="ch-permis-numero" style="font-size:1rem;">—</p>
+              </div>
+            </div>
+            <div class="card stat-carte">
+              <div class="stat-icone" style="background:#1A7FA8;">📋</div>
+              <div>
+                <p class="stat-label">Catégorie</p>
+                <p class="stat-valeur" id="ch-permis-categorie">—</p>
+              </div>
+            </div>
+            <div class="card stat-carte">
+              <div class="stat-icone" style="background:#FB6340;">📅</div>
+              <div>
+                <p class="stat-label">Expiration</p>
+                <p class="stat-valeur" id="ch-permis-expiration" style="font-size:1rem;">—</p>
+              </div>
+            </div>
+            <div class="card stat-carte">
+              <div class="stat-icone" style="background:#2DCE89;">✅</div>
+              <div>
+                <p class="stat-label">Disponibilité</p>
+                <p class="stat-valeur" id="ch-disponibilite" style="font-size:1rem;">—</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       MODALE : Ajouter / Modifier un chauffeur
+       Utilisée par le Directeur Régional
+  ============================================================ -->
+  <div id="modal-chauffeur" class="modal" style="display:none;">
+    <div class="modal-contenu">
+
+      <div class="modal-entete">
+        <h3 id="modal-titre">Ajouter un chauffeur</h3>
+        <button onclick="fermerModal()" class="btn-fermer">✕</button>
+      </div>
+
+      <!-- Message d'erreur dans la modale -->
+      <div id="modal-message" class="alerte alerte-rouge" style="display:none;"></div>
+
+      <form id="form-chauffeur" onsubmit="sauvegarderChauffeur(event)">
+        <!-- Champ caché : stocke l'ID lors d'une modification -->
+        <input type="hidden" id="modal-id">
+
+        <div class="grille-formulaire">
+          <div class="champ">
+            <label>Nom *</label>
+            <input type="text" id="modal-nom" required>
+          </div>
+          <div class="champ">
+            <label>Prénom *</label>
+            <input type="text" id="modal-prenom" required>
+          </div>
+          <div class="champ">
+            <label>Téléphone</label>
+            <input type="tel" id="modal-telephone" placeholder="06xxxxxxxx">
+          </div>
+          <div class="champ">
+            <label>Login *</label>
+            <input type="text" id="modal-login" required>
+          </div>
+          <div class="champ">
+            <label>Mot de passe *</label>
+            <input type="password" id="modal-mdp" placeholder="Laisser vide = inchangé">
+          </div>
+          <div class="champ">
+            <label>N° Permis *</label>
+            <input type="text" id="modal-permis" required>
+          </div>
+          <div class="champ">
+            <label>Catégorie Permis</label>
+            <select id="modal-categorie">
+              <option value="B">B – Voiture légère</option>
+              <option value="C">C – Poids lourd</option>
+              <option value="D">D – Transport voyageurs</option>
+              <option value="BE">BE – Remorque</option>
+            </select>
+          </div>
+          <div class="champ">
+            <label>Expiration Permis *</label>
+            <input type="date" id="modal-expiration" required>
+          </div>
+          <div class="champ">
+            <label>Date Recrutement</label>
+            <input type="date" id="modal-recrutement">
+          </div>
+          <div class="champ">
+            <label>Région</label>
+            <select id="modal-region">
+              <option value="Alger">Alger</option>
+              <option value="Oran">Oran</option>
+              <option value="Constantine">Constantine</option>
+              <option value="Annaba">Annaba</option>
+              <option value="Blida">Blida</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-boutons">
+          <button type="button" class="btn btn-gris" onclick="fermerModal()">Annuler</button>
+          <button type="submit" class="btn btn-primaire">💾 Sauvegarder</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Chargement du fichier JavaScript -->
+  <script src="app.js"></script>
+
+</body>
+</html>
