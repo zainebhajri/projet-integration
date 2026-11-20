@@ -38,7 +38,6 @@ export default function LoginPage({ onLoginSuccess }) {
       <div style={styles.card}>
         {/* Logo / Titre */}
         <div style={styles.header}>
-          <span style={styles.logo}>🚗</span>
           <h2 style={styles.title}>Gestion de Flotte</h2>
           <p style={styles.subtitle}>Connectez-vous à votre espace</p>
         </div>
@@ -51,7 +50,7 @@ export default function LoginPage({ onLoginSuccess }) {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="ex: chauffeur@test.com"
+              placeholder="e-mail "
               style={styles.input}
               disabled={loading}
             />
@@ -63,7 +62,7 @@ export default function LoginPage({ onLoginSuccess }) {
               type="password"
               value={motDePasse}
               onChange={(e) => setMotDePasse(e.target.value)}
-              placeholder="••••••••"
+              placeholder="*******"
               style={styles.input}
               disabled={loading}
             />
