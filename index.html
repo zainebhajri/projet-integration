@@ -19,7 +19,7 @@
 
       <!-- Logo de l'application -->
       <div class="login-logo">
-        <span class="logo-icon">⛽</span>
+        <span class="logo-icon"></span>
         <h1>FlotteApp</h1>
         <p>Gestion de Flotte & Carburant</p>
       </div>
@@ -39,18 +39,18 @@
           </div>
           <div class="champ">
             <label for="motdepasse">Mot de passe</label>
-            <input type="password" id="motdepasse" placeholder="••••••••" required>
+            <input type="password" id="motdepasse" placeholder="*******" required>
           </div>
-          <button type="submit" class="btn btn-primaire btn-plein">🔐 Se connecter</button>
+          <button type="submit" class="btn btn-primaire btn-plein">Se connecter</button>
         </form>
 
         <!-- Boutons pour tester rapidement chaque rôle -->
         <div class="demo-comptes">
           <p>Comptes de démonstration :</p>
           <div class="demo-btn-groupe">
-            <button class="btn-demo" onclick="remplirLogin('dg','dg123')">👔 DG</button>
-            <button class="btn-demo" onclick="remplirLogin('dr','dr123')">🗺️ DR</button>
-            <button class="btn-demo" onclick="remplirLogin('chauffeur','ch123')">🚗 Chauffeur</button>
+            <button class="btn-demo" onclick="remplirLogin('dg','dg123')">DG</button>
+            <button class="btn-demo" onclick="remplirLogin('dr','dr123')">DR</button>
+            <button class="btn-demo" onclick="remplirLogin('chauffeur','ch123')">Chauffeur</button>
           </div>
         </div>
       </div>
@@ -69,12 +69,12 @@
       <aside class="sidebar">
         <div class="sidebar-logo">⛽ FlotteApp</div>
         <nav>
-          <a href="#" class="nav-lien actif">📊 Tableau de bord</a>
-          <a href="#" class="nav-lien">🗺️ Régions</a>
-          <a href="#" class="nav-lien">👥 Chauffeurs</a>
-          <a href="#" class="nav-lien">🚗 Véhicules</a>
+          <a href="#" class="nav-lien actif">Tableau de bord</a>
+          <a href="#" class="nav-lien">Régions</a>
+          <a href="#" class="nav-lien">Chauffeurs</a>
+          <a href="#" class="nav-lien">Véhicules</a>
         </nav>
-        <button class="btn-deconnexion" onclick="deconnecter()">🚪 Déconnexion</button>
+        <button class="btn-deconnexion" onclick="deconnecter()">Déconnexion</button>
       </aside>
 
       <!-- Contenu principal -->
@@ -96,7 +96,7 @@
             </div>
           </div>
           <div class="card stat-carte">
-            <div class="stat-icone" style="background:#2DCE89;">👨‍✈️</div>
+            <div class="stat-icone" style="background:#2DCE89;"></div>
             <div>
               <p class="stat-label">Chauffeurs</p>
               <p class="stat-valeur" id="dg-total-chauffeurs">0</p>
@@ -121,7 +121,7 @@
         <!-- Tableau de tous les chauffeurs (toutes régions) -->
         <div class="card">
           <div class="card-entete">
-            <h3>👨‍✈️ Liste de tous les chauffeurs</h3>
+            <h3>Liste de tous les chauffeurs</h3>
           </div>
           <table class="tableau">
             <thead>
@@ -152,13 +152,13 @@
     <div class="app-layout">
 
       <aside class="sidebar">
-        <div class="sidebar-logo">⛽ FlotteApp</div>
+        <div class="sidebar-logo">-FlotteApp-</div>
         <nav>
-          <a href="#" class="nav-lien actif">👨‍✈️ Mes Chauffeurs</a>
-          <a href="#" class="nav-lien">🚗 Véhicules</a>
-          <a href="#" class="nav-lien">⛽ Bons Carburant</a>
+          <a href="#" class="nav-lien actif">Mes Chauffeurs</a>
+          <a href="#" class="nav-lien">Véhicules</a>
+          <a href="#" class="nav-lien">Bons Carburant</a>
         </nav>
-        <button class="btn-deconnexion" onclick="deconnecter()">🚪 Déconnexion</button>
+        <button class="btn-deconnexion" onclick="deconnecter()">Déconnexion</button>
       </aside>
 
       <main class="contenu-principal">
@@ -213,10 +213,10 @@
       <aside class="sidebar">
         <div class="sidebar-logo">⛽ FlotteApp</div>
         <nav>
-          <a href="#" class="nav-lien actif">👤 Mon Profil</a>
+          <a href="#" class="nav-lien actif"> Mon Profil</a>
           <a href="#" class="nav-lien">📋 Mes Missions</a>
         </nav>
-        <button class="btn-deconnexion" onclick="deconnecter()">🚪 Déconnexion</button>
+        <button class="btn-deconnexion" onclick="deconnecter()">Déconnexion</button>
       </aside>
 
       <main class="contenu-principal">
@@ -240,11 +240,11 @@
             <!-- Infos rapides -->
             <div class="profil-info">
               <div class="info-ligne">
-                <span class="info-label">📱 Téléphone</span>
+                <span class="info-label">Téléphone</span>
                 <span id="ch-telephone" class="info-valeur">—</span>
               </div>
               <div class="info-ligne">
-                <span class="info-label">🗺️ Région</span>
+                <span class="info-label">Région</span>
                 <span id="ch-region" class="info-valeur">—</span>
               </div>
               <div class="info-ligne">
@@ -257,7 +257,7 @@
           <!-- Formulaire de modification du profil -->
           <div class="card" style="flex:2;">
             <div class="card-entete">
-              <h3>✏️ Modifier mon profil</h3>
+              <h3>Modifier mon profil</h3>
             </div>
 
             <!-- Message après sauvegarde -->
@@ -295,7 +295,7 @@
                   <input type="date" id="ch-edit-expiration" required>
                 </div>
               </div>
-              <button type="submit" class="btn btn-primaire">💾 Sauvegarder les modifications</button>
+              <button type="submit" class="btn btn-primaire">Sauvegarder les modifications</button>
             </form>
           </div>
 
@@ -304,11 +304,11 @@
         <!-- Section informations du permis -->
         <div class="card" style="margin-top:0;">
           <div class="card-entete">
-            <h3>🪪 Informations Permis</h3>
+            <h3>Informations Permis</h3>
           </div>
           <div class="grille-stats">
             <div class="card stat-carte">
-              <div class="stat-icone" style="background:#0D4F6B;">🔢</div>
+              <div class="stat-icone" style="background:#0D4F6B;"></div>
               <div>
                 <p class="stat-label">N° Permis</p>
                 <p class="stat-valeur" id="ch-permis-numero" style="font-size:1rem;">—</p>
@@ -418,7 +418,7 @@
 
         <div class="modal-boutons">
           <button type="button" class="btn btn-gris" onclick="fermerModal()">Annuler</button>
-          <button type="submit" class="btn btn-primaire">💾 Sauvegarder</button>
+          <button type="submit" class="btn btn-primaire">Sauvegarder</button>
         </div>
       </form>
 
